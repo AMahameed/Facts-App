@@ -12,6 +12,8 @@
 		73FE18E72B40911C00DFA5DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73FE18E62B40911C00DFA5DD /* Assets.xcassets */; };
 		73FE18EA2B40911C00DFA5DD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73FE18E92B40911C00DFA5DD /* Preview Assets.xcassets */; };
 		73FE18F22B4097DC00DFA5DD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18F12B4097DC00DFA5DD /* Model.swift */; };
+		73FE18F52B40B0F200DFA5DD /* FactsHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18F42B40B0F200DFA5DD /* FactsHomeViewModel.swift */; };
+		73FE18F92B40C18000DFA5DD /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18F82B40C18000DFA5DD /* ColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		73FE18E62B40911C00DFA5DD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		73FE18E92B40911C00DFA5DD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		73FE18F12B4097DC00DFA5DD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		73FE18F42B40B0F200DFA5DD /* FactsHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsHomeViewModel.swift; sourceTree = "<group>"; };
+		73FE18F82B40C18000DFA5DD /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +59,8 @@
 			children = (
 				73FE18E22B40911C00DFA5DD /* Facts_AppApp.swift */,
 				73FE18F02B4097C500DFA5DD /* Model */,
-				73FE18E42B40911C00DFA5DD /* FactsHomeView.swift */,
+				73FE18F32B40B0D500DFA5DD /* FactsHome */,
+				73FE18F72B40C15500DFA5DD /* Ext + Utils */,
 				73FE18E62B40911C00DFA5DD /* Assets.xcassets */,
 				73FE18E82B40911C00DFA5DD /* Preview Content */,
 			);
@@ -76,6 +81,23 @@
 				73FE18F12B4097DC00DFA5DD /* Model.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		73FE18F32B40B0D500DFA5DD /* FactsHome */ = {
+			isa = PBXGroup;
+			children = (
+				73FE18E42B40911C00DFA5DD /* FactsHomeView.swift */,
+				73FE18F42B40B0F200DFA5DD /* FactsHomeViewModel.swift */,
+			);
+			path = FactsHome;
+			sourceTree = "<group>";
+		};
+		73FE18F72B40C15500DFA5DD /* Ext + Utils */ = {
+			isa = PBXGroup;
+			children = (
+				73FE18F82B40C18000DFA5DD /* ColorExtension.swift */,
+			);
+			path = "Ext + Utils";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -149,8 +171,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				73FE18F22B4097DC00DFA5DD /* Model.swift in Sources */,
+				73FE18F52B40B0F200DFA5DD /* FactsHomeViewModel.swift in Sources */,
 				73FE18E52B40911C00DFA5DD /* FactsHomeView.swift in Sources */,
 				73FE18E32B40911C00DFA5DD /* Facts_AppApp.swift in Sources */,
+				73FE18F92B40C18000DFA5DD /* ColorExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +316,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -322,7 +346,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
