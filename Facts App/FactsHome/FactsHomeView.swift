@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import OSLog
 
 struct FactsHomeView: View {
     @StateObject var vm = FactsHomeViewModel()
@@ -17,14 +16,14 @@ struct FactsHomeView: View {
         NavigationStack{
             VStack {
                 PickerMenu(vm: vm)
-                
-                
+                SelectedFactViews(vm: vm)
+            
             }
             .navigationTitle("Facts Finder")
             .navigationBarTitleDisplayMode(.automatic)
             .toolbar {
                 Button(action: {
-                    Logger(subsystem: "", category: "Button").info("Button pressed")
+                    Log.viewCycle.info("Info button pressed")
                     isBounce.toggle()
                 }, label: {
                     Image(systemName: "info.square.fill")
@@ -57,8 +56,32 @@ struct PickerMenu: View {
             .tint(.systemGray)
             .font(.title2)
             .listRowSeparator(.hidden)
+            .onChange(of: vm.selectedFact) { _, newValue in
+                Log.viewCycle.info("Selected the \(newValue.rawValue)")
+            }
+            
         }
         .listStyle(.plain)
+        
+    }
+}
+
+struct SelectedFactViews: View {
+    @ObservedObject var vm: FactsHomeViewModel
+    
+    var body: some View{
+        switch vm.selectedFact {
+        case .YearFact:
+            Text("")
+        case .TriviaFact:
+            Text("")
+        case .RandomFact:
+            Text("")
+        case .MathFact:
+            Text("")
+        case .DateFact:
+            Text("")
+        }
     }
 }
 
