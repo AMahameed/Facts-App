@@ -9,13 +9,10 @@ import SwiftUI
 
 struct RusableFactsView: View {
     @ObservedObject var vm: FactsHomeViewModel
-    @State var firstInput = ""
+    @State var input = ""
     
     let subtitleStr = try! AttributedString(
         markdown: "Let's Find a Fact, **Ready**?")
-    
-    let subTextfieldStr = try! AttributedString(
-        markdown: "Curious about a certain year fact? Look it up.")
     
     var body: some View{
         VStack(alignment: .leading){
@@ -24,37 +21,49 @@ struct RusableFactsView: View {
                 .font(.title2)
                 .padding(.bottom, 25)
             
-            VStack(alignment:.leading){
+            switch vm.selectedFact{
+            case .YearFact:
+                CustomTextField(
+                    vm: vm,
+                    input: $input,
+                    placeHolder: "Year")
+            case .RandomFact:
+                RandomFactView(vm: vm)
+            case .DateFact:
+                CustomTextField(
+                    vm: vm,
+                    input: $input,
+                    placeHolder: " Day")
                 
-                TextField(" Year (Numbers only)", text: $firstInput)
-                    .padding(10)
-                    .onChange(of: firstInput) { _, newValue in
-                        firstInput = newValue.filter { $0.isNumber }
-                    }
-                    .onSubmit() {
-                        vm.firstInput = firstInput
-                    }
-                    .background(Color.systemBlue)
-                    .cornerRadius(8)
-                    .shadow(radius: 10)
+                CustomTextField(
+                    vm: vm,
+                    input: $input,
+                    placeHolder: " Month",
+                    isDateView: true)
+            default:
+                CustomTextField(vm: vm, input: $input)
+            }
+            
+            
+            Text("Curious about a certain fact? Look it up.")
+                .font(.system(.footnote, design: .default, weight: .semibold))
+                .foregroundStyle(Color.secondaryLabel)
+                .padding(.top, 3)
+            
+            HStack{
+                Image(systemName:
+                        input.isEmpty ? "x.circle.fill" : "checkmark.circle.fill"
+                )
+                .contentTransition(.symbolEffect(.replace))
+                .foregroundStyle(
+                    input.isEmpty ? .red : .green
+                )
                 
-                
-                Text(subTextfieldStr)
+                Text("Numbers only")
                     .font(.system(.footnote, design: .default, weight: .semibold))
                     .foregroundStyle(Color.secondaryLabel)
-                    .padding(.top, 3)
-                
-                HStack(alignment: .center, content: {
-                    Image(systemName: firstInput.isEmpty ? "x.circle.fill" : "checkmark.circle.fill")
-                        .contentTransition(.symbolEffect(.replace))
-                        .foregroundStyle(firstInput.isEmpty ? .red : .green)
-                    
-                    Text("Numbers only")
-                        .font(.system(.footnote, design: .default, weight: .semibold))
-                        .foregroundStyle(Color.secondaryLabel)
-                })
-                .padding(.top, 3)
             }
+            .padding(.top, 3)
         }
         .padding()
         .background(LinearGradient(
@@ -64,9 +73,43 @@ struct RusableFactsView: View {
         .cornerRadius(8)
         .shadow(radius: 10)
         
+        
     }
 }
 
 #Preview {
     RusableFactsView(vm: FactsHomeViewModel())
+}
+
+struct CustomTextField: View {
+    @ObservedObject var vm: FactsHomeViewModel
+    @Binding var input: String
+    var placeHolder: String = "6 - Digits Numbers"
+    var isDateView: Bool = false
+    
+    var body: some View {
+        TextField(placeHolder, text: $input)
+            .padding(10)
+            .onChange(of: input) { _, newValue in
+                input = newValue.filter { $0.isNumber }
+            }
+            .onSubmit() {
+                vm.firstInput = input
+                if isDateView { vm.secondInput = input }
+            }
+            .background(Color.systemBlue)
+            .cornerRadius(8)
+            .shadow(radius: 10)
+    }
+}
+
+struct RandomFactView: View{
+    @ObservedObject var vm: FactsHomeViewModel
+    @State var input = ""
+    var body: some View {
+        PickerMenu(vm: vm, pickerTitle: "Select a Fact")
+            .background(Color.systemBlue)
+            .cornerRadius(8)
+            .shadow(radius: 10)
+    }
 }

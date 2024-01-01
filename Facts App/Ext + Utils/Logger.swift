@@ -8,7 +8,7 @@
 import OSLog
 
 struct Log {
-    private static var subsystem = Bundle.main.bundleIdentifier!
+    private static let subsystem = Bundle.main.bundleIdentifier!
     
     static let viewCycle = Logger(subsystem: subsystem, category: "info")
     static let data = Logger(subsystem: subsystem, category: "data")

@@ -14,7 +14,7 @@
 		73FE18EA2B40911C00DFA5DD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73FE18E92B40911C00DFA5DD /* Preview Assets.xcassets */; };
 		73FE18F22B4097DC00DFA5DD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18F12B4097DC00DFA5DD /* Model.swift */; };
 		73FE18F52B40B0F200DFA5DD /* FactsHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18F42B40B0F200DFA5DD /* FactsHomeViewModel.swift */; };
-		73FE18F92B40C18000DFA5DD /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18F82B40C18000DFA5DD /* ColorExtension.swift */; };
+		73FE18F92B40C18000DFA5DD /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18F82B40C18000DFA5DD /* Extensions.swift */; };
 		73FE18FB2B40D24000DFA5DD /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FE18FA2B40D24000DFA5DD /* Logger.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +27,7 @@
 		73FE18E92B40911C00DFA5DD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		73FE18F12B4097DC00DFA5DD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		73FE18F42B40B0F200DFA5DD /* FactsHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactsHomeViewModel.swift; sourceTree = "<group>"; };
-		73FE18F82B40C18000DFA5DD /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		73FE18F82B40C18000DFA5DD /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		73FE18FA2B40D24000DFA5DD /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,7 +108,7 @@
 		73FE18F72B40C15500DFA5DD /* Ext + Utils */ = {
 			isa = PBXGroup;
 			children = (
-				73FE18F82B40C18000DFA5DD /* ColorExtension.swift */,
+				73FE18F82B40C18000DFA5DD /* Extensions.swift */,
 				73FE18FA2B40D24000DFA5DD /* Logger.swift */,
 			);
 			path = "Ext + Utils";
@@ -194,7 +194,7 @@
 				73E5CF7D2B41EEC500EDAC93 /* RusableFactsView.swift in Sources */,
 				73FE18E52B40911C00DFA5DD /* FactsHomeView.swift in Sources */,
 				73FE18E32B40911C00DFA5DD /* Facts_AppApp.swift in Sources */,
-				73FE18F92B40C18000DFA5DD /* ColorExtension.swift in Sources */,
+				73FE18F92B40C18000DFA5DD /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,9 +344,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Mahameed.Facts-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -374,9 +377,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.Mahameed.Facts-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
