@@ -10,6 +10,12 @@ import Foundation
 final class FactsHomeViewModel: ObservableObject {
     
     @Published var selectedFact: Facts = .YearFact
+    @Published var firstInput = ""
+    @Published var secondInput = ""
+    
+    @objc func cancelAndDoneActions() {
+        
+    }
 }
 
 

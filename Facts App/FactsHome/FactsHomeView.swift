@@ -14,13 +14,17 @@ struct FactsHomeView: View {
     
     var body: some View {
         NavigationStack{
-            VStack {
-                PickerMenu(vm: vm)
-                SelectedFactViews(vm: vm)
-            
+            List{
+                VStack(alignment: .center){
+                    PickerMenu(vm: vm)
+                    RetrieveButton()
+                }
+                .padding(.top)
+                .listRowSeparator(.hidden)
             }
+            .listStyle(.plain)
             .navigationTitle("Facts Finder")
-            .navigationBarTitleDisplayMode(.automatic)
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 Button(action: {
                     Log.viewCycle.info("Info button pressed")
@@ -34,9 +38,10 @@ struct FactsHomeView: View {
                 })
                 .symbolEffect(.bounce.byLayer, value: isBounce)
             }
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbarBackground(Color.systemBlue, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
+            
+            
         }
     }
 }
@@ -45,24 +50,20 @@ struct PickerMenu: View {
     @ObservedObject var vm: FactsHomeViewModel
     
     var body: some View {
-        Spacer()
-        List {
-            Picker("Select a Fact Category", selection: $vm.selectedFact) {
-                ForEach(Facts.allCases) { fact in
-                    Text(fact.rawValue)
-                }
+        Picker("Fact Categories", selection: $vm.selectedFact) {
+            ForEach(Facts.allCases) { fact in
+                Text(fact.rawValue)
             }
-            .pickerStyle(.menu)
-            .tint(.systemGray)
-            .font(.title2)
-            .listRowSeparator(.hidden)
-            .onChange(of: vm.selectedFact) { _, newValue in
-                Log.viewCycle.info("Selected the \(newValue.rawValue)")
-            }
-            
         }
-        .listStyle(.plain)
+        .pickerStyle(.menu)
+        .tint(.label)
+        .font(.title2)
+        .onChange(of: vm.selectedFact) { _, newValue in
+            Log.viewCycle.info("Selected the \(newValue.rawValue)")
+        }
+        .padding(8)
         
+        SelectedFactViews(vm: vm)
     }
 }
 
@@ -72,19 +73,36 @@ struct SelectedFactViews: View {
     var body: some View{
         switch vm.selectedFact {
         case .YearFact:
-            Text("")
+            RusableFactsView(vm: vm)
         case .TriviaFact:
-            Text("")
+            Text("2")
         case .RandomFact:
-            Text("")
+            Text("3")
         case .MathFact:
-            Text("")
+            Text("4")
         case .DateFact:
-            Text("")
+            Text("5")
         }
     }
 }
 
-#Preview {
+#Preview{
     FactsHomeView()
+}
+
+struct RetrieveButton: View {
+    var body: some View {
+        GeometryReader { geometry in
+            
+            Button(action: {
+                
+            }, label: {
+                Text("Retrieve")
+                    .font(.system(size: 20))
+                    .frame(width: min(geometry.size.width , 300), height: 30)
+            })
+            .buttonStyle(.borderedProminent)
+        }
+        .padding()
+    }
 }
