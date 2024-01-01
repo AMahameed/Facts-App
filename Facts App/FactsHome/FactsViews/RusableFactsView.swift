@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RusableFactsView: View {
     @ObservedObject var vm: FactsHomeViewModel
-    @State var input = ""
+    @State private var input = ""
     
     let subtitleStr = try! AttributedString(
         markdown: "Let's Find a Fact, **Ready**?")
@@ -28,7 +28,7 @@ struct RusableFactsView: View {
                     input: $input,
                     placeHolder: "Year")
             case .RandomFact:
-                RandomFactView(vm: vm)
+                RandomFactView()
             case .DateFact:
                 CustomTextField(
                     vm: vm,
@@ -43,7 +43,6 @@ struct RusableFactsView: View {
             default:
                 CustomTextField(vm: vm, input: $input)
             }
-            
             
             Text("Curious about a certain fact? Look it up.")
                 .font(.system(.footnote, design: .default, weight: .semibold))
@@ -66,50 +65,63 @@ struct RusableFactsView: View {
             .padding(.top, 3)
         }
         .padding()
-        .background(LinearGradient(
-            gradient:Gradient(colors: [.systemBlue,.systemBlue]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing))
+        .background(.blue)
         .cornerRadius(8)
         .shadow(radius: 10)
-        
-        
+    }
+}
+
+struct CustomTextField: View {
+    @ObservedObject var vm: FactsHomeViewModel
+    @State private var isClear = false
+    @Binding var input: String
+    
+    var placeHolder: String = "6 - Digits Numbers"
+    var isDateView: Bool = false
+    
+    var body: some View {
+        HStack{
+            TextField(placeHolder, text: $input)
+                .onChange(of: input) { _, newValue in
+                    input = newValue.filter { $0.isNumber }
+                    if input.isEmpty { isClear = false } else { isClear = true }
+                }
+                .onSubmit() {
+                    vm.firstInput = input
+                    if isDateView { vm.secondInput = input }
+                    isClear = false
+                }
+                .layoutPriority(1)
+            
+            if isClear {
+                Image(systemName: "x.circle.fill")
+                    .onTapGesture{
+                        input.removeAll()
+                        Log.viewCycle.info("Button Pressed")
+                    }
+                    .foregroundStyle(Color.label)
+                    .layoutPriority(2)
+            }
+        }
+        .padding(10)
+        .background(.blue)
+        .cornerRadius(8)
+        .shadow(radius: 10)
+    }
+}
+
+struct RandomFactView: View{
+    let vm = FactsHomeViewModel()
+    @State private var input = ""
+    
+    var body: some View {
+        PickerMenu(vm: vm, pickerTitle: "Select a Fact")
+            .background(.blue)
+            .cornerRadius(8)
+            .shadow(radius: 10)
     }
 }
 
 #Preview {
     RusableFactsView(vm: FactsHomeViewModel())
-}
-
-struct CustomTextField: View {
-    @ObservedObject var vm: FactsHomeViewModel
-    @Binding var input: String
-    var placeHolder: String = "6 - Digits Numbers"
-    var isDateView: Bool = false
-    
-    var body: some View {
-        TextField(placeHolder, text: $input)
-            .padding(10)
-            .onChange(of: input) { _, newValue in
-                input = newValue.filter { $0.isNumber }
-            }
-            .onSubmit() {
-                vm.firstInput = input
-                if isDateView { vm.secondInput = input }
-            }
-            .background(Color.systemBlue)
-            .cornerRadius(8)
-            .shadow(radius: 10)
-    }
-}
-
-struct RandomFactView: View{
-    @ObservedObject var vm: FactsHomeViewModel
-    @State var input = ""
-    var body: some View {
-        PickerMenu(vm: vm, pickerTitle: "Select a Fact")
-            .background(Color.systemBlue)
-            .cornerRadius(8)
-            .shadow(radius: 10)
-    }
 }

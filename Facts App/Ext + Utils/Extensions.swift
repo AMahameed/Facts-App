@@ -9,15 +9,9 @@ import SwiftUI
 
 extension Color {
     
-    // MARK: - Label Color
     static let label = Color(UIColor.label)
     static let secondaryLabel = Color(UIColor.secondaryLabel)
-    
-    // MARK: - Other Color
     static let link = Color(UIColor.link)
-    
-    // MARK: System Color
-    static let systemBlue = Color(UIColor.systemBlue)
     
 }
 

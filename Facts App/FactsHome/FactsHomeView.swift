@@ -17,28 +17,23 @@ struct FactsHomeView: View {
                 VStack(alignment: .center){
                     PickerMenu(vm: vm)
                     SelectedFactViews(vm: vm)
-                        .padding(5)
                     RetrieveButton()
                 }
                 .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
             .navigationTitle("Facts Finder")
-            .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                Button(action: {
-                    Log.viewCycle.info("Button pressed")
-                    isBounce.toggle()
-                }, label: {
-                    Image(systemName: "info.square.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .tint(.white)
-                        .symbolRenderingMode(.hierarchical)
-                })
-                .symbolEffect(.bounce.byLayer, value: isBounce)
+                Image(systemName: "info.square.fill")
+                    .tint(.white)
+                    .symbolRenderingMode(.hierarchical)
+                    .symbolEffect(.bounce.byLayer, value: isBounce)
+                    .onTapGesture {
+                        Log.viewCycle.info("Button pressed")
+                        isBounce.toggle()
+                    }
             }
-            .toolbarBackground(Color.systemBlue, for: .navigationBar)
+            .toolbarBackground(Color.blue, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
     }
@@ -79,7 +74,7 @@ struct PickerMenu: View {
         .onChange(of: vm.selectedFact) { _, newValue in
             Log.viewCycle.info("Selected \(newValue.rawValue)")
         }
-        .padding(8)
+        .padding(4)
     }
 }
 
@@ -96,7 +91,7 @@ struct RetrieveButton: View {
         .buttonStyle(.borderedProminent)
         .tint(.orange)
         .foregroundStyle(Color.label)
-        .padding(12)
+        .padding(.top, 80)
     }
 }
 
