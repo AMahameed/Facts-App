@@ -20,3 +20,11 @@ struct PadCheck {
         return UIDevice.current.userInterfaceIdiom == .pad ? true : false
     }
 }
+
+var appVersion: String {
+    if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+        return version
+    } else {
+        return "N/A"
+    }
+}

@@ -23,19 +23,25 @@ struct FactsHomeView: View {
             }
             .listStyle(.plain)
             .navigationTitle("Facts Finder")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                Image(systemName: "info.square.fill")
-                    .tint(.white)
-                    .symbolRenderingMode(.hierarchical)
-                    .symbolEffect(.bounce.byLayer, value: isBounce)
-                    .onTapGesture {
-                        Log.viewCycle.info("Button pressed")
-                        isBounce.toggle()
-                    }
+                NavigationLink {
+                    AboutView()
+                } label: {
+                    Image(systemName: "info.square.fill")
+                        .tint(.white)
+                        .symbolRenderingMode(.hierarchical)
+                        .symbolEffect(.bounce.byLayer, value: isBounce)
+                        .onTapGesture(count: 2){
+                            Log.viewCycle.info("Button pressed")
+                            isBounce.toggle()
+                        }
+                }
             }
             .toolbarBackground(Color.blue, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
+        .tint(.label)
     }
 }
 

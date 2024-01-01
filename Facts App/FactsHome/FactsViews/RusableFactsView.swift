@@ -115,7 +115,7 @@ struct RandomFactView: View{
     @State private var input = ""
     
     var body: some View {
-        PickerMenu(vm: vm, pickerTitle: "Select a Fact")
+        PickerMenu(vm: vm, pickerTitle: "select a Fact")
             .background(.blue)
             .cornerRadius(8)
             .shadow(radius: 10)
