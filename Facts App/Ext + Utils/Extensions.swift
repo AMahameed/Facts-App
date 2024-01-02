@@ -16,8 +16,12 @@ extension Color {
 }
 
 struct PadCheck {
-    var isPad: Bool {
-        return UIDevice.current.userInterfaceIdiom == .pad ? true : false
+    func isPad() -> Bool {
+        if UIDevice.current.userInterfaceIdiom == .pad{
+            return true
+        } else {
+            return false
+        }
     }
 }
 

@@ -9,35 +9,22 @@ import SwiftUI
 
 struct FactsHomeView: View {
     @StateObject var vm = FactsHomeViewModel()
-    @State private var isBounce = false
     
     var body: some View {
         NavigationStack{
-            List{
-                VStack(alignment: .center){
+            VStack(alignment: .center){
+                List{
                     PickerMenu(vm: vm)
-                    SelectedFactViews(vm: vm)
-                    RetrieveButton()
+                    RusableFactsView(vm: vm)
+                        .listRowSeparator(.hidden)
                 }
-                .listRowSeparator(.hidden)
+                RetrieveButton()
+                Spacer(minLength: 50.0)
             }
             .listStyle(.plain)
             .navigationTitle("Facts Finder")
             .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                NavigationLink {
-                    AboutView()
-                } label: {
-                    Image(systemName: "info.square.fill")
-                        .tint(.white)
-                        .symbolRenderingMode(.hierarchical)
-                        .symbolEffect(.bounce.byLayer, value: isBounce)
-                        .onTapGesture(count: 2){
-                            Log.viewCycle.info("Button pressed")
-                            isBounce.toggle()
-                        }
-                }
-            }
+            .toolbar { AboutViewNavLink() }
             .toolbarBackground(Color.blue, for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
         }
@@ -45,24 +32,24 @@ struct FactsHomeView: View {
     }
 }
 
-struct SelectedFactViews: View { // To DO: remove if not needed
-    @ObservedObject var vm: FactsHomeViewModel
-    
-    var body: some View{
-        switch vm.selectedFact {
-        case .YearFact:
-            RusableFactsView(vm: vm)
-        case .TriviaFact:
-            RusableFactsView(vm: vm)
-        case .RandomFact:
-            RusableFactsView(vm: vm)
-        case .MathFact:
-            RusableFactsView(vm: vm)
-        case .DateFact:
-            RusableFactsView(vm: vm)
-        }
-    }
-}
+//struct SelectedFactViews: View { // To DO: remove if not needed
+//    @ObservedObject var vm: FactsHomeViewModel
+//
+//    var body: some View{
+//        switch vm.selectedFact {
+//        case .YearFact:
+//            RusableFactsView(vm: vm)
+//        case .TriviaFact:
+//            RusableFactsView(vm: vm)
+//        case .RandomFact:
+//            RusableFactsView(vm: vm)
+//        case .MathFact:
+//            RusableFactsView(vm: vm)
+//        case .DateFact:
+//            RusableFactsView(vm: vm)
+//        }
+//    }
+//}
 
 struct PickerMenu: View {
     @ObservedObject var vm: FactsHomeViewModel
@@ -87,17 +74,30 @@ struct PickerMenu: View {
 struct RetrieveButton: View {
     var body: some View {
         
-        Button(action: {
-            Log.viewCycle.info("Button pressed") // To Do
-        }, label: {
+        NavigationLink(destination: DetailView(), label: {
             Text("Retrieve")
                 .font(.system(size: 20))
-                .frame(width: 310)
+                .foregroundStyle(Color.label)
+                .frame(width: PadCheck().isPad() ? 450 : 340, height: 40)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(.orange)
+                        .shadow(color: .black.opacity(0.35), radius: 10)
+                )
         })
-        .buttonStyle(.borderedProminent)
-        .tint(.orange)
-        .foregroundStyle(Color.label)
-        .padding(.top, 80)
+    }
+}
+
+struct AboutViewNavLink: View {
+    var body: some View {
+        
+        NavigationLink {
+            AboutView()
+        } label: {
+            Image(systemName: "info.square.fill")
+                .tint(.white)
+                .symbolRenderingMode(.hierarchical)
+        }
     }
 }
 
