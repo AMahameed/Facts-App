@@ -12,4 +12,8 @@ final class FactsHomeViewModel: ObservableObject {
     @Published var selectedFact: Facts = .DateFact
     @Published var firstInput = ""
     @Published var secondInput = ""
+    
+    private var networkService = Network()
+    
+    
 }
