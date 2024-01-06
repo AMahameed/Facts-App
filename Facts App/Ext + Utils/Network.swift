@@ -14,19 +14,24 @@ enum NetworkError: Error {
     case decodingError(Error)
 }
 
-struct APIHeader {
+struct APIData {
     
     let header = [
         "X-RapidAPI-Key": "70beeac263msh003a1604b2e0bc6p1fd282jsn0fd6a88a7845",
         "X-RapidAPI-Host": "numbersapi.p.rapidapi.com"
     ]
+    
+    let baseURL = "https://numbersapi.p.rapidapi.com/"
+    
 }
 
 final class Network {
     
     func fetchData<T: Codable>(for: T.Type, url: String) -> AnyPublisher<T, NetworkError>{
         
-        guard let url = URL(string: url) else{
+        let apiData = APIData()
+        
+        guard let url = URL(string: apiData.baseURL + url) else{
             return Fail(error: .invalidURL).eraseToAnyPublisher()
         }
         
@@ -36,7 +41,7 @@ final class Network {
             timeoutInterval: 10.0)
         
         urlRequest.httpMethod = "GET"
-        urlRequest.allHTTPHeaderFields = APIHeader().header
+        urlRequest.allHTTPHeaderFields = apiData.header
         
         return URLSession
             .shared

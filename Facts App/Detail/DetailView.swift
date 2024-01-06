@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct DetailView: View {
-    @State var sectionTitle = ""
-    @State var sectionBody = ""
+    @ObservedObject var vm: FactsHomeViewModel
     
     var body: some View {
         NavigationStack{
@@ -22,17 +21,17 @@ struct DetailView: View {
                 
                 List{
                     Section("Jaw Dropping Fact") {
-                        Text("**The number of days after September 11th, that the Madrid Attack took place**")
+                        Text("**\(vm.factObject.text)**")
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                     }
                     Section("Fact Category") {
-                        Text("**1999**")
+                        Text("**\(vm.factObject.type.capitalized)**")
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                     }
                     Section("Number") {
-                        Text("Trivia")
+                        Text("\(vm.factObject.number)")
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                     }
@@ -45,5 +44,5 @@ struct DetailView: View {
 }
 
 #Preview {
-    DetailView()
+    DetailView(vm: FactsHomeViewModel())
 }
