@@ -14,6 +14,7 @@ final class FactsHomeViewModel: ObservableObject {
     @Published var selectedFact2: Facts = .DateFact
     @Published var firstInput = ""
     @Published var secondInput = ""
+    @Published var pickerInput = ""
     private var cancellable = Set<AnyCancellable>()
     @Published var factObject = Fact()
     
@@ -29,12 +30,12 @@ final class FactsHomeViewModel: ObservableObject {
             "year"
         case .TriviaFact:
             "trivia"
-        case .RandomFact:
-            "random"
         case .MathFact:
             "math"
         case .DateFact:
             "date"
+        default:
+            "year"
         }
     }
     
@@ -47,7 +48,7 @@ final class FactsHomeViewModel: ObservableObject {
         case .TriviaFact:
             customURL = firstInput + "/trivia?fragment=true&notfound=floor&json=true"
         case .RandomFact:
-            customURL = "random/\(firstInput)?min=10&max=20&fragment=true&json=true"
+            customURL = "random/\(pickerInput)?min=10&max=20&fragment=true&json=true"
         case .MathFact:
             customURL = firstInput + "/math?fragment=true&json=true"
         case .DateFact:

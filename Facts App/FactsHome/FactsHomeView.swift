@@ -57,6 +57,8 @@ struct RetrieveButton: View {
     var isDisabled: Bool{
         if vm.selectedFact == Facts.DateFact {
             return vm.firstInput.isEmpty || vm.secondInput.isEmpty
+        } else if vm.selectedFact == Facts.RandomFact {
+            return vm.pickerInput.isEmpty
         } else {
             return vm.firstInput.isEmpty
         }

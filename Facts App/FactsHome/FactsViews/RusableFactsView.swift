@@ -53,22 +53,24 @@ struct RusableFactsView: View {
                 .foregroundStyle(Color.secondaryLabel)
                 .padding(.top, 3)
             
-            HStack{
-                Image(systemName:
-                        isDisabled ? "x.circle.fill" : "checkmark.circle.fill"
-                )
-                .contentTransition(.symbolEffect(.replace))
-                .foregroundStyle(
-                    isDisabled ? .red : .green
-                )
-                
-                Text("Numbers only")
-                    .font(.system(.footnote, design: .default, weight: .semibold))
-                    .foregroundStyle(Color.secondaryLabel)
+            if vm.selectedFact == Facts.RandomFact {
+                EmptyView()
+            } else {
+                HStack{
+                    Image(systemName:
+                            isDisabled ? "x.circle.fill" : "checkmark.circle.fill"
+                    )
+                    .contentTransition(.symbolEffect(.replace))
+                    .foregroundStyle(
+                        isDisabled ? .red : .green
+                    )
+                    
+                    Text("Numbers only")
+                        .font(.system(.footnote, design: .default, weight: .semibold))
+                        .foregroundStyle(Color.secondaryLabel)
+                }
+                .padding(.top, 3)
             }
-            .padding(.top, 3)
-            
-            
         }
         .padding()
         .background(
@@ -145,7 +147,7 @@ struct RandomFactView: View{
     
     var body: some View {
         Picker("Select Fact", selection: $vm.selectedFact2) {
-            ForEach(Facts.allCases) { fact in
+            ForEach([Facts.DateFact, Facts.MathFact, Facts.TriviaFact, Facts.YearFact]) { fact in
                 Text(fact.rawValue)
             }
         }
@@ -154,7 +156,7 @@ struct RandomFactView: View{
         .font(.title3)
         .onChange(of: vm.selectedFact2) { _, fact in
             Log.viewCycle.info("Selected \(fact.rawValue)")
-            vm.firstInput = vm.AdjustFactString(for: fact)
+            vm.pickerInput = vm.AdjustFactString(for: fact)
         }
         .padding(7)
     }
