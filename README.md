@@ -1,2 +1,2 @@
 # Facts-App
-a small project using  Combine and SwiftUI
+A compact project employing Combine and SwiftUI.
