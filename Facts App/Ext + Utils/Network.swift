@@ -38,19 +38,21 @@ final class Network {
         var urlRequest = URLRequest(
             url: url,
             cachePolicy: .useProtocolCachePolicy,
-            timeoutInterval: 10.0)
+            timeoutInterval: 5.0)
         
         urlRequest.httpMethod = "GET"
         urlRequest.allHTTPHeaderFields = apiData.header
+        
+        Log.data.info("\(urlRequest)")
         
         return URLSession
             .shared
             .dataTaskPublisher(for: urlRequest)
             .tryMap{ data, response in
                 guard let response  = response as? HTTPURLResponse, response.statusCode == 200 else {
+                    Log.data.error("Error fetchin from server")
                     throw NetworkError.networkError(NSError(domain: "Fetching Data Failed", code: 500))
                 }
-                
                 return data
             }
             .mapError { error in NetworkError.networkError(error)}

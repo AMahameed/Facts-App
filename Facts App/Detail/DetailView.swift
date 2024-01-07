@@ -40,9 +40,8 @@ struct DetailView: View {
             .listStyle(.plain)
             .navigationTitle("Facts")
         }
+        .onAppear{
+            vm.getData()
+        }
     }
-}
-
-#Preview {
-    DetailView(vm: FactsHomeViewModel())
 }

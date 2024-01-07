@@ -12,7 +12,7 @@ struct Fact: Codable {
     var type: String = ""
 }
 
-enum Facts: String, Equatable, CaseIterable, Identifiable {
+enum Facts: String, CaseIterable, Identifiable {
     var id: Self {self}
     
     case YearFact = "Year Fact"

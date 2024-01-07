@@ -30,7 +30,3 @@ struct AboutView: View {
         }
     }
 }
-
-#Preview {
-    AboutView()
-}

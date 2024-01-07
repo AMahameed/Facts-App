@@ -11,6 +11,7 @@ import Combine
 final class FactsHomeViewModel: ObservableObject {
     
     @Published var selectedFact: Facts = .DateFact
+    @Published var selectedFact2: Facts = .DateFact
     @Published var firstInput = ""
     @Published var secondInput = ""
     private var cancellable = Set<AnyCancellable>()
@@ -22,6 +23,21 @@ final class FactsHomeViewModel: ObservableObject {
         self.networkService = networkService
     }
     
+    func AdjustFactString(for fact: Facts) -> String {
+        switch fact {
+        case .YearFact:
+            "year"
+        case .TriviaFact:
+            "trivia"
+        case .RandomFact:
+            "random"
+        case .MathFact:
+            "math"
+        case .DateFact:
+            "date"
+        }
+    }
+    
     func getData() {
         var customURL = ""
         
@@ -31,7 +47,7 @@ final class FactsHomeViewModel: ObservableObject {
         case .TriviaFact:
             customURL = firstInput + "/trivia?fragment=true&notfound=floor&json=true"
         case .RandomFact:
-            customURL = "/random/\(firstInput)?min=10&max=20&fragment=true&json=true"
+            customURL = "random/\(firstInput)?min=10&max=20&fragment=true&json=true"
         case .MathFact:
             customURL = firstInput + "/math?fragment=true&json=true"
         case .DateFact:
@@ -46,8 +62,8 @@ final class FactsHomeViewModel: ObservableObject {
                 case .finished:
                     Log.data.info("Data Fetched")
                 }
-            } receiveValue: { factObject in
-                self.factObject = factObject
+            } receiveValue: { [weak self] factObject in
+                self?.factObject = factObject
             }.store(in: &cancellable)
     }
 }

@@ -9,11 +9,17 @@ import SwiftUI
 
 struct RusableFactsView: View {
     @ObservedObject var vm: FactsHomeViewModel
-    @State private var input = ""
-    @State private var secInput = ""
     
     let subtitleStr = try! AttributedString(
         markdown: "Let's Find a Fact, **Ready**?")
+    
+    var isDisabled: Bool{
+        if vm.selectedFact == Facts.DateFact {
+            return vm.firstInput.isEmpty || vm.secondInput.isEmpty
+        } else {
+            return vm.firstInput.isEmpty
+        }
+    }
     
     var body: some View{
         VStack(alignment: .leading){
@@ -26,23 +32,20 @@ struct RusableFactsView: View {
             case .YearFact:
                 CustomTextField(
                     vm: vm,
-                    input: $input,
                     placeHolder: "Year")
             case .RandomFact:
-                RandomFactView()
+                RandomFactView(vm: vm)
             case .DateFact:
                 CustomTextField(
                     vm: vm,
-                    input: $input,
                     placeHolder: " Day")
                 
                 CustomTextField(
                     vm: vm,
-                    input: $input,
                     placeHolder: " Month",
                     isMonthTF: true)
             default:
-                CustomTextField(vm: vm, input: $input)
+                CustomTextField(vm: vm)
             }
             
             Text("Curious about a certain fact? Look it up.")
@@ -52,11 +55,11 @@ struct RusableFactsView: View {
             
             HStack{
                 Image(systemName:
-                        input.isEmpty ? "x.circle.fill" : "checkmark.circle.fill"
+                        isDisabled ? "x.circle.fill" : "checkmark.circle.fill"
                 )
                 .contentTransition(.symbolEffect(.replace))
                 .foregroundStyle(
-                    input.isEmpty ? .red : .green
+                    isDisabled ? .red : .green
                 )
                 
                 Text("Numbers only")
@@ -64,6 +67,8 @@ struct RusableFactsView: View {
                     .foregroundStyle(Color.secondaryLabel)
             }
             .padding(.top, 3)
+            
+            
         }
         .padding()
         .background(
@@ -79,8 +84,6 @@ struct CustomTextField: View {
     
     @State private var isClear = false
     @State private var isSecClear = false
-    @Binding var input: String
-    @State var secInput: String = ""
     
     var placeHolder: String = "6 - Digits Numbers"
     var isMonthTF: Bool = false
@@ -88,37 +91,41 @@ struct CustomTextField: View {
     var body: some View {
         HStack{
             if isMonthTF {
-                TextField(placeHolder, text: $secInput, onCommit: {
-                    vm.secondInput = secInput
+                TextField(placeHolder, text: $vm.secondInput, onCommit: {
                     isSecClear = false
                 })
-                .onChange(of: secInput) { _, newValue in
-                    secInput = newValue.filter { $0.isNumber }
-                    if secInput.isEmpty { isSecClear = false } else { isSecClear = true }
+                .onChange(of: vm.secondInput) { _, newValue in
+                    vm.secondInput = newValue.filter { $0.isNumber }
+                    if vm.secondInput.isEmpty { isSecClear = false } else { isSecClear = true }
+                }
+                .onTapGesture {
+                    if vm.secondInput.isEmpty { isSecClear = false } else { isSecClear = true }
                 }
                 
                 if isSecClear {
                     Image(systemName: "x.circle.fill")
                         .onTapGesture{
-                            secInput.removeAll()
+                            vm.secondInput.removeAll()
                             Log.viewCycle.info("Button Pressed")
                         }
                         .foregroundStyle(Color.label)
                 }
             }else{
-                TextField(placeHolder, text: $input, onCommit: {
-                    vm.firstInput = input
+                TextField(placeHolder, text: $vm.firstInput, onCommit: {
                     isClear = false
                 })
-                .onChange(of: input) { _, newValue in
-                    input = newValue.filter { $0.isNumber }
-                    if input.isEmpty { isClear = false } else { isClear = true }
+                .onChange(of: vm.firstInput) { _, newValue in
+                    vm.firstInput = newValue.filter { $0.isNumber }
+                    if vm.firstInput.isEmpty { isClear = false } else { isClear = true }
+                }
+                .onTapGesture {
+                    if vm.firstInput.isEmpty { isClear = false } else { isClear = true }
                 }
                 
                 if isClear {
                     Image(systemName: "x.circle.fill")
                         .onTapGesture{
-                            input.removeAll()
+                            vm.firstInput.removeAll()
                             Log.viewCycle.info("Button Pressed")
                         }
                         .foregroundStyle(Color.label)
@@ -134,19 +141,21 @@ struct CustomTextField: View {
 }
 
 struct RandomFactView: View{
-    let vm = FactsHomeViewModel()
-    @State private var input = ""
+    @ObservedObject var vm: FactsHomeViewModel
     
     var body: some View {
-        PickerMenu(vm: vm, pickerTitle: "select a Fact")
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(.blue)
-                    .shadow(color: .black.opacity(0.35), radius: 10)
-            )
+        Picker("Select Fact", selection: $vm.selectedFact2) {
+            ForEach(Facts.allCases) { fact in
+                Text(fact.rawValue)
+            }
+        }
+        .pickerStyle(.menu)
+        .tint(.label)
+        .font(.title3)
+        .onChange(of: vm.selectedFact2) { _, fact in
+            Log.viewCycle.info("Selected \(fact.rawValue)")
+            vm.firstInput = vm.AdjustFactString(for: fact)
+        }
+        .padding(7)
     }
-}
-
-#Preview {
-    RusableFactsView(vm: FactsHomeViewModel())
 }

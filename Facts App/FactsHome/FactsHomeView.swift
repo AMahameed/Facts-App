@@ -18,7 +18,7 @@ struct FactsHomeView: View {
                     RusableFactsView(vm: vm)
                         .listRowSeparator(.hidden)
                 }
-                RetrieveButton()
+                RetrieveButton(vm: vm)
                 Spacer(minLength: 50.0)
             }
             .listStyle(.plain)
@@ -32,31 +32,11 @@ struct FactsHomeView: View {
     }
 }
 
-//struct SelectedFactViews: View { // To DO: remove if not needed
-//    @ObservedObject var vm: FactsHomeViewModel
-//
-//    var body: some View{
-//        switch vm.selectedFact {
-//        case .YearFact:
-//            RusableFactsView(vm: vm)
-//        case .TriviaFact:
-//            RusableFactsView(vm: vm)
-//        case .RandomFact:
-//            RusableFactsView(vm: vm)
-//        case .MathFact:
-//            RusableFactsView(vm: vm)
-//        case .DateFact:
-//            RusableFactsView(vm: vm)
-//        }
-//    }
-//}
-
 struct PickerMenu: View {
     @ObservedObject var vm: FactsHomeViewModel
-    @State var pickerTitle = "Fact Categories"
     
     var body: some View {
-        Picker(pickerTitle, selection: $vm.selectedFact) {
+        Picker("Fact Categories", selection: $vm.selectedFact) {
             ForEach(Facts.allCases) { fact in
                 Text(fact.rawValue)
             }
@@ -64,27 +44,37 @@ struct PickerMenu: View {
         .pickerStyle(.menu)
         .tint(.label)
         .font(.title2)
-        .onChange(of: vm.selectedFact) { _, newValue in
-            Log.viewCycle.info("Selected \(newValue.rawValue)")
+        .onChange(of: vm.selectedFact) { _, fact in
+            Log.viewCycle.info("Selected \(fact.rawValue)")
         }
         .padding(4)
     }
 }
 
 struct RetrieveButton: View {
+    @ObservedObject var vm: FactsHomeViewModel
+    
+    var isDisabled: Bool{
+        if vm.selectedFact == Facts.DateFact {
+            return vm.firstInput.isEmpty || vm.secondInput.isEmpty
+        } else {
+            return vm.firstInput.isEmpty
+        }
+    }
+    
     var body: some View {
-        
-        NavigationLink(destination: DetailView(), label: {
-            Text("Retrieve")
-                .font(.system(size: 20))
-                .foregroundStyle(Color.label)
-                .frame(width: PadCheck().isPad() ? 450 : 340, height: 40)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(.orange)
-                        .shadow(color: .black.opacity(0.35), radius: 10)
-                )
-        })
+            NavigationLink(destination: DetailView(vm: vm), label: {
+                Text("Retrieve")
+                    .font(.system(size: 20))
+                    .foregroundStyle(Color.label)
+                    .frame(width: PadCheck().isPad() ? 450 : 340, height: 40)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(isDisabled ? .gray : .orange)
+                            .shadow(color: .black.opacity(0.35), radius: 10)
+                    )
+            })
+            .disabled(isDisabled ? true : false)
     }
 }
 
@@ -99,8 +89,4 @@ struct AboutViewNavLink: View {
                 .symbolRenderingMode(.hierarchical)
         }
     }
-}
-
-#Preview{
-    FactsHomeView()
 }
